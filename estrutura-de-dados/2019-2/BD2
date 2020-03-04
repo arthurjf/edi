@@ -1,0 +1,44 @@
+---------------------------------------------------------------------------------------------------------------------------
+
+CREATE DATABASE biblioteca
+
+CREATE DATABASE biblioteca
+
+CREATE TABLE editora (id SERIAL PRIMARY KEY, nome VARCHAR(30), UNIQUE (nome));
+
+CREATE TABLE livro (id SERIAL PRIMARY KEY, titulo VARCHAR(25), editora INT, local_edicao VARCHAR(25), codigo_isbn VARCHAR(25), 
+FOREIGN KEY (editora) REFERENCES editora(id));
+
+CREATE TABLE palavra_chave (id SERIAL PRIMARY KEY, livro_id INT, palavra VARCHAR(20), FOREIGN KEY (livro_id) REFERENCES livro(id));
+
+CREATE TABLE autor (id SERIAL PRIMARY KEY, nome VARCHAR(30), FOREIGN KEY (livro_id) REFERENCES livro(id));
+
+CREATE TABLE livro_autor (id SERIAL PRIMARY KEY, livro_id INT, autor_id INT, FOREIGN KEY (livro_id) REFERENCES livro(id), 
+FOREIGN KEY (autor_id) REFERENCES autor(id));
+
+CREATE TABLE exemplar (id SERIAL PRIMARY KEY, livro_id INT, FOREIGN KEY (livro_id) REFERENCES livro(id));
+
+CREATE TABLE emprestimo (id SERIAL PRIMARY KEY, exemplar_id INT, associado_id INT, data TIMESTAMP WITHOUT TIME ZONE);
+
+CREATE TABLE associado (id SERIAL PRIMARY KEY, nome VARCHAR(30), endereco VARCHAR(30));
+
+---------------------------------------------------------------------------------------------------------------------------
+
+CREATE DATABASE hollywood;
+
+CREATE TABLE estudio (id SERIAL PRIMARY KEY, nome VARCHAR(25), dono VARCHAR(25), 
+data_fundacao TIMESTAMP WITHOUT TIME ZONE, faturamento MONEY, UNIQUE (dono));
+
+CREATE TABLE filme (id SERIAL PRIMARY KEY, nome VARCHAR(25), meses_feito INT, ano_lancamento TIMESTAMP WITHOUT TIME ZONE,
+ copyright VARCHAR(20), custo MONEY, UNIQUE (nome));
+
+CREATE TABLE ator (id SERIAL PRIMARY KEY, nome VARCHAR(30), seguro_social VARCHAR(20), nacionalidade VARCHAR(20), 
+idade int, sexo VARCHAR(20), cache MONEY, UNIQUE (seguro_social), UNIQUE(nome));
+
+CREATE TABLE personagem (id SERIAL PRIMARY KEY, filme_id int, ator_id int, nome VARCHAR(25), FOREIGN KEY (filme_id) REFERENCES filme(id), 
+FOREIGN KEY (ator_id) REFERENCES ator(id));
+
+CREATE TABLE papel (id SERIAL PRIMARY KEY, tipo_papel VARCHAR(25));
+
+CREATE TABLE criterio (id SERIAL PRIMARY KEY, papel_id int, ator_id int, FOREIGN KEY (papel_id) REFERENCES papel(id), 
+FOREIGN KEY (ator_id) REFERENCES ator(id));
